@@ -435,7 +435,7 @@ in other formulas using this plugin.
 
 ## Version History
 
-**v0.1.0**  10/13/2023
+**v0.1.0** - 10/13/2023
 - Tyruswoo Battle Mechanics development version released!
 - Minimum and maximum damage limits
 - Customizable formulas for hit and evasion rates, critical hit rate,
