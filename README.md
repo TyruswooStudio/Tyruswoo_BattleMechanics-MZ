@@ -38,40 +38,40 @@ All formulas (except the Damage Functions) can use the following variables:
 
 | Variable         | Description                                         |
 |------------------|-----------------------------------------------------|
-| action           | The current action (attack, skill use, or item use) |
-| subject          | The battler performing the action                   |
-| target           | The battler who may be affected by this action      |
-| a                | An alias for subject                                |
-| b                | An alias for target                                 |
-| v                | The list of game variables.                         |
+| `action`         | The current action (attack, skill use, or item use) |
+| `subject`        | The battler performing the action                   |
+| `target`         | The battler who may be affected by this action      |
+| `a`              | An alias for subject                                |
+| `b`              | An alias for target                                 |
+| `v`              | The list of game variables.                         |
 
 Actions and battlers are objects; to include them in the math you'll need
 to use their properties or methods.
 
 All battlers have the following types of properties:
-- Parameters: atk, def, mat, mdf, agi, luk, hp, mp, tp, mhp, mmp
-- Ex-Parameters: hit, eva, cri, cev, mev, mrf, cnt, hrg, mrg, trg
-- Sp-Parameters: tgr, grd, rec, pha, mcr, tcr, pdr, mdr, fdr, exr
-- Notetags: critBoost
+- Parameters: `atk`, `def`, `mat`, `mdf`, `agi`, `luk`, `hp`, `mp`, `tp`, `mhp`, `mmp`
+- Ex-Parameters: `hit`, `eva`, `cri`, `cev`, `mev`, `mrf`, `cnt`, `hrg`, `mrg`, `trg`
+- Sp-Parameters: `tgr`, `grd`, `rec`, `pha`, `mcr`, `tcr`, `pdr`, `mdr`, `fdr`, `exr`
+- Notetags: `critBoost`
 
 This plugin grants the following properties to actions:
-- hitMod: The `<hit mod>` value of this action's skill or item.
+- `hitMod`: The `<hit mod>` value of this action's skill or item.
   Useful for making some skills more likely to hit than others.
-- critMod: The `<crit mod>` value of this action's skill or item.
+- `critMod`: The `<crit mod>` value of this action's skill or item.
   This can make some skills more or less likely to land a critical hit.
-- critBoost: The `<crit boost>` value of this action's skill or item.
+- `critBoost`: The `<crit boost>` value of this action's skill or item.
   This lets some skills do higher or lower critical damage compared to
   their usual damage.
 
 Below are examples of syntax for accessing properties and game variables
 in formulas:
 
-| Example              | Note                                        |
-|----------------------|---------------------------------------------|
-| subject.hit or a.hit | The attacker's Hit Rate                     |
-| target.agi or b.agi  | The target's Agility                        |
-| action.critMod       | The active skill's `<crit mod>` notetag value |
-| v[15]                | The value stored in Game Variable #15       |
+| Example                  | Note                                          |
+|--------------------------|-----------------------------------------------|
+| `subject.hit` or `a.hit` | The attacker's Hit Rate                       |
+| `target.agi` or `b.agi`  | The target's Agility                          |
+| `action.critMod`         | The active skill's `<crit mod>` notetag value |
+| `v[15]`                  | The value stored in Game Variable #15         |
 
 ## Console Logging
 
@@ -124,15 +124,15 @@ after the active skill or item's damage function is calculated,
 but before other factors alter the damage. For context, below are all steps
 RPG Maker MZ takes to calculate damage, with this plugin's additions marked:
 
- 1. Evaluate the active skill or item's damage formula. This is itemDamage.
+ 1. Evaluate the active skill or item's damage formula. This is `itemDamage`.
  2. THIS PLUGIN: Apply the Standard or High Resist Damage Function to the
     itemDamage.
  3. Multiply by the target's Element Rate for this action's element(s).
- 4. Multiply by the target's PDR or MDR, depending on attack type.
- 5. If it's healing, multiply by the targets REC rate.
+ 4. Multiply by the target's `pdr` or `mdr`, depending on attack type.
+ 5. If it's healing, multiply by the targets `rec` rate.
  6. If it's a critical hit, apply the Critical Damage Function.
  7. Apply this skill or item's variance.
- 8. If the target is guarding, divide damage by (2 * target.grd).
+ 8. If the target is guarding, divide damage by `(2 * target.grd)`.
  9. Round damage to the nearest whole number.
 10. THIS PLUGIN: Make damage at least Minimum Damage,
     but no more than Maximum Damage.
@@ -143,24 +143,24 @@ that have notetags written in their Note field for `<power stats>`,
 
 Because the Damage Functions already take care of scaling damage based
 on stats, a database entry for a skill or item with `<power stats>` and
-`<resist stats>` can use a simple constants for its damage formula
-(e.g. 5 for a weak skill, or 50 for a stronger skill), and the
+`<resist stats>` can use a simple constant for its damage formula
+(e.g. `5` for a weak skill, or `50` for a stronger skill), and the
 globally defined Damage Functions will take care of the rest.
 
 ### `<power stats>` notetag
 The higher the skill user's power stat(s), the more damage or healing this
 skill will do. If a skill has multiple power stats listed, their arithmetic
-average will be used as powerStat in the Damage Functions.
+average will be used as `powerStat` in the Damage Functions.
 
 If the active skill or item has no `<power stats>` notetag, 
-the Damage Function will use a powerStat of 0.
+the Damage Function will use a `powerStat` of 0.
 
 ### `<resist stats>` notetag
 The higher the target's resist stat(s), the less damage it will take from
 a damage skill.
 
 If the active skill or item has no `<resist stats>` notetag,
-the Damage Function will use 0 as the resistStat.
+the Damage Function will use 0 as the `resistStat`.
 
 Below are examples of valid power stat and resist stat notetags:
 
@@ -173,11 +173,11 @@ Below are examples of valid power stat and resist stat notetags:
 | `<resistStats:def,agi,luk>` | Use many power or resist stats if you like   |
 
 The average of the subject's `<power stats>` for this skill or item are used
-as powerStat, and the average of the target's `<resist stats>` for this skill
-or item are used as resistStat.
+as `powerStat`, and the average of the target's `<resist stats>` for this skill
+or item are used as `resistStat`.
 
-If powerStat >= resistStat, the Standard Damage Function is used.
-If powerStat < resistStat, the High Resist Damage Function is used instead.
+If `powerStat` >= `resistStat`, the Standard Damage Function is used.
+If `powerStat` < `resistStat`, the High Resist Damage Function is used instead.
 
 ### Standard Damage Function
 
@@ -185,9 +185,9 @@ The default formula for the Standard Damage Function is as follows:
 ```
     itemDamage + powerStat - resistStat
 ```
-Since the Standard Damage Function applies when powerStat >= resistStat,
+Since the Standard Damage Function applies when `powerStat` >= `resistStat`,
 the skill or item's damage will be increased by however many points
-greater the powerStat is than the resistStat.
+greater the `powerStat` is than the `resistStat`.
 
 ### High Resist Damage Function
 
@@ -195,15 +195,15 @@ The default formula for the High Resist Damage Function follows:
 ```
     itemDamage - Math.pow(resistStat - powerStat, 0.5)
 ```
-This means that however much greater resistStat is than powerStat,
-take the square root of that and subtract it from itemDamage. This makes
+This means that however much greater `resistStat` is than `powerStat`,
+take the square root of that and subtract it from `itemDamage`. This makes
 damage drop to the Minimum Damage more gradually than the Standard Damage
 Function would have done.
 
 ### Example of Damage Functions at work
 
-Let's say that Stab is a skill whose damage formula is simply 10.
-No calculations in the damage formula, just 10
+Let's say that Stab is a skill whose damage formula is simply `10`.
+No calculations in the damage formula, just `10`
 Stab also has the following notetags written in its note:
 ```
     <power stats: atk, agi>
@@ -212,14 +212,14 @@ Stab also has the following notetags written in its note:
 Now suppose Alice uses Stab on Bob and it hits. How much damage will it do
 once we put it through its Damage Function, assuming default formulas?
 1. We've already run Stab's damage formula at this point. Since the formula
-   is 10, itemDamage is 10.
+   is `10`, itemDamage is 10.
 2. Stab's Power Stats are ATK and AGI, so if Alice's ATK is 8 and
-   her AGI is 6, then this action's powerStat is (8 + 6) / 2 = 14/2 = 7.
+   her AGI is 6, then this action's `powerStat` is (8 + 6) / 2 = 14/2 = 7.
 3. Stab's Resist Stats are DEF and AGI, so if Bob's DEF is 7 and
-   his AGI is 3,then this action's resistStat is (7 + 3) / 2 = 10/2 = 5.
-4. In this case, powerStat >= resistStat, so we use the Standard Damage
+   his AGI is 3,then this action's `resistStat` is (7 + 3) / 2 = 10/2 = 5.
+4. In this case, `powerStat` >= `resistStat`, so we use the Standard Damage
    Function.
-5. The Standard Damage Function is itemDamage + powerStat - resistStat,
+5. The Standard Damage Function is `itemDamage + powerStat - resistStat`,
    so if we plug in our values, that's 10 + 7 - 5 = 12
 6. The damage coming out of the Damage Function phase is 12, but this
    may change further if Alice strikes a critical hit, or if Bob is
@@ -234,30 +234,28 @@ calculations of all skills and items that have notetags for `<power stats>`,
 
 The Damage Functions can use all variables available to other formulas,
 plus the following:
-- itemDamage: The result of evaluating the skill or item's damage formula.
-- powerStat: The average of the item's `<power stats>` for this action's
+- `itemDamage`: The result of evaluating the skill or item's damage formula.
+- `powerStat`: The average of the item's `<power stats>` for this action's
   subject.
-- resistStat: The average of the item's `<resist stats>` for the current
+- `resistStat`: The average of the item's `<resist stats>` for the current
   target.
 
 When you formulate Damage Functions, consider what you want to happen
 in a variety of scenarios, such as the following:
-* powerStat is much greater than resistStat
-* powerStat is a little greater than resistStat
-* powerStat and resistStat are equally matched
-* powerStat is a litle less than resistStat
-* powerStat is much less than resistStat
-* powerStat is zero
-* resistStat is zero
-* both powerStat and resistStat are zero
+* `powerStat` is much greater than `resistStat`
+* `powerStat` is a little greater than `resistStat`
+* `powerStat` and `resistStat` are equally matched
+* `powerStat` is a litle less than `resistStat`
+* `powerStat` is much less than `resistStat`
+* `powerStat` is zero
+* `resistStat` is zero
+* both `powerStat` and `resistStat` are zero
 
 A graphing calculator can help you visualize possible outcomes:
 https://www.desmos.com/calculator
 
-Refer to JavaScript's Math object reference for functions you can
-call inside your formulas:
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
-/Global_Objects/Math
+Refer to JavaScript's [Math object reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math) for functions you can
+call inside your formulas.
 
 ## Hit and Evasion Rates
 
@@ -308,7 +306,7 @@ Below are examples of valid `<hit mod>` notetags:
 - `<hit mod: 0>` - This skill has a typical chance to hit based on its user's
   HIT trait.
 
-Any skill that has no `<hit mod>` notetag is assumed to have a hitMod of 0.
+Any skill that has no `<hit mod>` notetag is assumed to have a `hitMod` of 0.
 
 A hit mod of -10 differs from a 90% success rate because hit mods are
 additive rather than multiplicative.
@@ -374,7 +372,7 @@ Below are examples of valid `<crit mod>` notetags:
 - `<crit mod: 0>` - This skill has a typical chance to hit based on its user's
   CRI trait.
 
-Any skill that has no `<crit mod>` notetag is assumed to have a critMod of 0.
+Any skill that has no `<crit mod>` notetag is assumed to have a `critMod` of 0.
 
 ## Critical Damage
 
@@ -393,24 +391,24 @@ interpreting their sum as a percent. If no `<crit boost>` notetags apply,
 the damage will simply be modified by 3, like RMMZ does by default.
 
 Each variable in the formula, explained:
-- damage: This action's damage before it is made into critical damage.
-- subject.critBoost: The sum of all values of `<crit boost>` notetags applied
+- `damage`: This action's damage before it is made into critical damage.
+- `subject.critBoost`: The sum of all values of `<crit boost>` notetags applied
   to the acting battler. This includes what's on its own Actor or Enemy
   entry, as well as its class, equipment, and applied states. If no
   `<crit boost>` notetags apply to the subject, subject.critBoost is 0.
-- action.critBoost: The value of the `<crit boost>` notetag, if any, on the
+- `action.critBoost`: The value of the `<crit boost>` notetag, if any, on the
   Skill or Item being used in the current action, or 0 if there is none.
 
 ### `<crit boost>` notetags
 
-A critBoost notetag can be placed in the Note field of an Actor, Class,
+A crit boost notetag can be placed in the Note field of an Actor, Class,
 Skill, Item, Weapon, Armor, Enemy, or State. Below are examples of
-correctly formed critBoost notetags, and their meanings under the default
+correctly formed crit boost notetags, and their meanings under the default
 Critical Damage Formula:
 
 - `<crit boost: 5>` - Add 5% to the critical damage multiplier.
-- `<crit boost: +10>` - Add 10% to multiplier. The plus sign is optional.
-- `<CritBoost: +2>` - Add 2% to multiplier. Notice it's case insensitive and the space in crit boost is optional.
+- `<crit boost: +10>` - Add 10% to the multiplier. The plus sign is optional.
+- `<CritBoost: +2>` - Add 2% to the multiplier. Notice that it's case insensitive and the space in crit boost is optional.
 - `<crit boost: -5>` - Subtract 5% from the critical damage multiplier.
 - `<crit boost: -25%>` - Subtract 25% from the critical damage multiplier. The percent sign is optional.                       |
 
