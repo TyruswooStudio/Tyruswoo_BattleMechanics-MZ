@@ -483,6 +483,8 @@ Tyruswoo.BattleMechanics = Tyruswoo.BattleMechanics || {};
  * in other formulas using this plugin.
  * 
  * ============================================================================
+ * Visit Tyruswoo.com to ask for help, donate, or browse more of our plugins.
+ * ============================================================================
  * MIT License
  *
  * Copyright (c) 2023 Kathy Bunn and Scott Tyrus Washburn
