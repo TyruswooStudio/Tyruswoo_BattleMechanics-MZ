@@ -431,7 +431,7 @@ If you want luck to affect other types of battle calculations aside from
 states and debuffs, you can include a.luk, b.luk, or action.lukEffectRate 
 in other formulas using this plugin.
 
-### For more help using this plugin, contact us at [Tyruswoo.com](https://www.tyruswoo.com).
+### Visit [**Tyruswoo.com**](https://www.tyruswoo.com) to [ask for help](https://www.tyruswoo.com/contact-us/), [donate](https://www.tyruswoo.com/donate/), or browse more of our [plugins](https://www.tyruswoo.com/downloads/rpg-maker-plugin-downloads/).
 
 ## Version History
 
